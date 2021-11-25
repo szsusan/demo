@@ -1,0 +1,10 @@
+hibernate:
+  jdbc:
+    url: localhost:3306/demo
+    username: root
+    password: root
+    driver: org.h2.Driver
+    properties:
+      hibernate-hbm2dd-auto: update
+      hibernate-show_sql: true
+      hibernate-format_sql: true
