@@ -1,0 +1,49 @@
+package com.quick.demo.config;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.orm.hibernate5.HibernateTransactionManager;
+import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
+
+import javax.sql.DataSource;
+import java.util.Properties;
+
+@Configuration
+@EnableTransactionManagement
+public class HibernateConfig {
+
+	@Autowired
+	private HibernateJdbcConfig hibernateJdbcConfig;
+
+	@Bean
+	public DataSource dataSource() {
+		DriverManagerDataSource dataSource = new DriverManagerDataSource();
+		dataSource.setDriverClassName(hibernateJdbcConfig.getDriver());
+		dataSource.setUrl(hibernateJdbcConfig.getUrl());
+		dataSource.setUsername(hibernateJdbcConfig.getUsername());
+		dataSource.setPassword(hibernateJdbcConfig.getPassword());
+		return dataSource;
+	}
+
+	@Bean
+	public LocalSessionFactoryBean sessionFactory() {
+		LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
+		sessionFactory.setDataSource(dataSource());
+		sessionFactory.setPackagesToScan(hibernateJdbcConfig.getPackageScan());
+		Properties hibernateProperties = new Properties();
+		hibernateProperties.putAll(hibernateJdbcConfig.getProperties());
+		sessionFactory.setHibernateProperties(hibernateProperties);
+
+		return sessionFactory;
+	}
+
+	@Bean
+	public HibernateTransactionManager transactionManager() {
+		HibernateTransactionManager transactionManager = new HibernateTransactionManager();
+		transactionManager.setSessionFactory(sessionFactory().getObject());
+		return transactionManager;
+	}
+}

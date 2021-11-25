@@ -4,10 +4,12 @@ hibernate:
     username: root
     password: root
     driver: org.h2.Driver
+    packageScan: com.quick.demo.entity
     properties:
       hibernate-hbm2dd-auto: update
       hibernate-show_sql: true
       hibernate-format_sql: true
+      hibernate-dialect: org.hibernate.dialect.H2Dialect
 spring:
   h2:
     console:

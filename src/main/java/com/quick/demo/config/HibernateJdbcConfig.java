@@ -13,6 +13,7 @@ public class HibernateJdbcConfig {
 	private String username;
 	private String password;
 	private String driver;
+	private String packageScan;
 	private Map<String, Object> properties;
 
 	public String getUrl() {
@@ -57,6 +58,14 @@ public class HibernateJdbcConfig {
 			map.put(entry.getKey().replaceAll("-", "."), entry.getValue());
 		}
 		this.properties = map;
+	}
+
+	public String getPackageScan() {
+		return packageScan;
+	}
+
+	public void setPackageScan(String packageScan) {
+		this.packageScan = packageScan;
 	}
 }
 
