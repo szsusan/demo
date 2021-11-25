@@ -1,3 +1,11 @@
 spring:
   profiles:
     active: dev
+  application:
+    name: demo
+
+
+logging:
+  config: classpath:log.xml
+  file:
+    path: /home/logs
