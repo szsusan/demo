@@ -19,3 +19,9 @@ spring:
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
 
+
+  redis:
+    database: 0
+    host: 127.0.0.1
+    port: 6379
+

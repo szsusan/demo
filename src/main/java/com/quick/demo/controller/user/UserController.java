@@ -1,7 +1,10 @@
 package com.quick.demo.controller.user;
 
+import com.quick.demo.dto.FollowUser;
 import com.quick.demo.dto.UserDTO;
 import com.quick.demo.entity.User;
+import com.quick.demo.exception.UserNotFoundException;
+import com.quick.demo.repository.UserRelationRepository;
 import com.quick.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,6 +19,9 @@ public class UserController {
 
 	@Autowired
 	private UserService userService;
+
+	@Autowired
+	private UserRelationRepository relationRepository;
 
 	@RequestMapping(value = "get/{id}", method = RequestMethod.GET)
 	public UserDTO get(@PathVariable(name = "id") String id) {
@@ -37,6 +43,19 @@ public class UserController {
 	@RequestMapping(value = "/update", method = RequestMethod.PUT)
 	public UserDTO update(@RequestBody UserDTO userDTO) {
 		return toDTO(userService.update(userDTO));
+	}
+
+	@RequestMapping(value = "/follow", method = RequestMethod.POST)
+	public void update(@RequestBody FollowUser followUser) {
+		User byUserId = userService.getByUserId(followUser.getUserId());
+		if (byUserId == null) {
+			throw new UserNotFoundException(followUser.getUserId());
+		}
+		User followed = userService.getByUserId(followUser.getFollowId());
+		if (followed == null) {
+			throw new UserNotFoundException(followUser.getFollowId());
+		}
+		relationRepository.follow(byUserId.getId(), followed.getId());
 	}
 
 	private UserDTO toDTO(User user) {
