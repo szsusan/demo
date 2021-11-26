@@ -46,6 +46,20 @@
             <artifactId>spring-boot-configuration-processor</artifactId>
         </dependency>
 
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.13.2</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <artifactId>easymock</artifactId>
+            <groupId>org.easymock</groupId>
+            <version>4.3</version>
+        </dependency>
+
+
         <!-- in memory database h2-->
         <dependency>
             <groupId>com.h2database</groupId>
