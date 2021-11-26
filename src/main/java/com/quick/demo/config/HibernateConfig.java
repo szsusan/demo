@@ -1,8 +1,10 @@
 package com.quick.demo.config;
 
+import org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.mapping.model.CamelCaseAbbreviatingFieldNamingStrategy;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
@@ -24,6 +26,7 @@ public class HibernateConfig {
 	public LocalSessionFactoryBean sessionFactory() {
 		LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
 		sessionFactory.setDataSource(dataSource);
+		sessionFactory.setPhysicalNamingStrategy(new PhysicalNamingStrategyStandardImpl());
 		sessionFactory.setPackagesToScan(hibernateJdbcConfig.getPackageScan());
 		Properties hibernateProperties = new Properties();
 		hibernateProperties.putAll(hibernateJdbcConfig.getProperties());
