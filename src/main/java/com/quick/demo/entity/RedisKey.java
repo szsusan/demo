@@ -3,9 +3,10 @@ package com.quick.demo.entity;
 public enum RedisKey {
 
 	Follower,
-	Following;
+	Following,
+	Geo;
 
-	public String toKey(String userNo) {
-		return this.name() + "-" + userNo;
+	public String toKey(String identity) {
+		return this.name() + "-" + identity;
 	}
 }
