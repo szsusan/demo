@@ -24,7 +24,7 @@ public class UserServiceTest {
 	@Test
 	public void update() {
 		User user = new User();
-		EasyMock.expect(userRepository.getByUserId(EasyMock.anyString())).andReturn(null).andReturn(user);
+		EasyMock.expect(userRepository.getByUserNo(EasyMock.anyString())).andReturn(null).andReturn(user);
 		EasyMock.expect(userRepository.saveOrUpdate(user)).andReturn(user);
 		EasyMock.replay(userRepository);
 

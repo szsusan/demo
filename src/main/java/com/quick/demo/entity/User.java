@@ -3,15 +3,15 @@ package com.quick.demo.entity;
 import javax.persistence.*;
 
 @Entity
-@Table(indexes = @Index(columnList = "user_id"))
+@Table(indexes = @Index(columnList = "user_no"))
 public class User {
 
 	@Id()
 	@Column()
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
-	@Column(name = "user_id", unique = true)
-	private String userId;
+	@Column(name = "user_No", unique = true)
+	private String userNo;
 	private String name;
 	private String dob;
 	@Embedded
@@ -27,12 +27,12 @@ public class User {
 		this.id = id;
 	}
 
-	public String getUserId() {
-		return userId;
+	public String getUserNo() {
+		return userNo;
 	}
 
-	public void setUserId(String userId) {
-		this.userId = userId;
+	public void setUserNo(String userId) {
+		this.userNo = userId;
 	}
 
 	public String getName() {

@@ -2,22 +2,22 @@ package com.quick.demo.dto;
 
 public class FollowUser {
 
-	private String userId;
-	private String followId;
+	private String userNo;
+	private String followNo;
 
-	public String getUserId() {
-		return userId;
+	public String getUserNo() {
+		return userNo;
 	}
 
-	public void setUserId(String userId) {
-		this.userId = userId;
+	public void setUserNo(String userNo) {
+		this.userNo = userNo;
 	}
 
-	public String getFollowId() {
-		return followId;
+	public String getFollowNo() {
+		return followNo;
 	}
 
-	public void setFollowId(String followId) {
-		this.followId = followId;
+	public void setFollowNo(String followNo) {
+		this.followNo = followNo;
 	}
 }

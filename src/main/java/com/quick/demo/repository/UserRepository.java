@@ -4,10 +4,12 @@ import com.quick.demo.entity.User;
 
 public interface UserRepository {
 
-	User getByUserId(String userId);
+	User getByUserNo(String userNo);
 
 	User saveOrUpdate(User user);
 
-	void deleteByUserId(String userId);
+	void deleteByUserNo(String userNo);
+
+	User get(Long id);
 
 }

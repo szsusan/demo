@@ -4,12 +4,10 @@ import com.quick.demo.dto.UserDTO;
 import com.quick.demo.entity.User;
 import com.quick.demo.exception.UserNotFoundException;
 import com.quick.demo.repository.UserRepository;
+import com.quick.demo.util.Current;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.time.Instant;
-import java.util.UUID;
 
 @Service
 public class UserService {
@@ -17,36 +15,53 @@ public class UserService {
 	@Autowired
 	private UserRepository userRepository;
 
-	public User getByUserId(String userId) {
-		return userRepository.getByUserId(userId);
+	public UserDTO getByUserNo(String userNo) {
+		return toDTO(userRepository.getByUserNo(userNo));
 	}
 
-	public User save(UserDTO userDTO) {
+	public UserDTO save(UserDTO userDTO) {
 		User user = new User();
-		user.setUserId(UUID.randomUUID().toString());
+		user.setUserNo(Current.uniqueId());
 		user.setDob(userDTO.getDob());
 		user.setName(userDTO.getName());
-		user.setCreatedAt(Instant.now().toEpochMilli());
-		return userRepository.saveOrUpdate(user);
+		user.setCreatedAt(Current.toMills());
+		return toDTO(userRepository.saveOrUpdate(user));
 
 	}
 
 	@Transactional
-	public User update(UserDTO userDTO) {
+	public UserDTO update(UserDTO userDTO) {
 
-		User user = userRepository.getByUserId(userDTO.getId());
+		User user = userRepository.getByUserNo(userDTO.getId());
 		if (user == null) {
 			throw new UserNotFoundException(userDTO.getId());
 		}
 
-		user.setUserId(userDTO.getId());
+		user.setUserNo(userDTO.getId());
 		user.setName(user.getName());
 		user.setAddress(user.getAddress());
-		return userRepository.saveOrUpdate(user);
+		return toDTO(userRepository.saveOrUpdate(user));
 
 	}
 
-	public void deleteByUserId(String id) {
-		userRepository.deleteByUserId(id);
+	public void deleteByUserNo(String userNo) {
+		userRepository.deleteByUserNo(userNo);
+	}
+
+	public UserDTO getById(Long id) {
+		return toDTO(userRepository.get(id));
+	}
+
+	private UserDTO toDTO(User user) {
+		if (user == null) {
+			return null;
+		}
+		UserDTO userDTO = new UserDTO();
+		userDTO.setId(user.getUserNo());
+		userDTO.setDob(user.getDob());
+		userDTO.setName(user.getName());
+		userDTO.setAddress(user.getAddress());
+		userDTO.setCreateAt(user.getCreatedAt());
+		return userDTO;
 	}
 }

@@ -20,12 +20,12 @@ public class UserHibernateRepository implements UserRepository {
 
 	@Override
 	@Transactional(readOnly = true)
-	public User getByUserId(String userId) {
+	public User getByUserNo(String userNo) {
 		Session session = currentSession();
 		CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
 		CriteriaQuery<User> criteriaQuery = criteriaBuilder.createQuery(User.class);
 		Root<User> from = criteriaQuery.from(User.class);
-		criteriaQuery.select(from).where(criteriaBuilder.equal(from.get("userId"), userId));
+		criteriaQuery.select(from).where(criteriaBuilder.equal(from.get("userId"), userNo));
 		Query<User> query = session.createQuery(criteriaQuery);
 		return query.uniqueResult();
 	}
@@ -39,9 +39,14 @@ public class UserHibernateRepository implements UserRepository {
 
 	@Override
 	@Transactional
-	public void deleteByUserId(String userId) {
-		String hql = "delete from User where userId=:userId";
-		currentSession().createQuery(hql).setParameter("userId", userId).executeUpdate();
+	public void deleteByUserNo(String userNo) {
+		String hql = "delete from User where userNo=:userId";
+		currentSession().createQuery(hql).setParameter("userId", userNo).executeUpdate();
+	}
+
+	@Override
+	public User get(Long id) {
+		return currentSession().get(User.class, id);
 	}
 
 	private Session currentSession() {
