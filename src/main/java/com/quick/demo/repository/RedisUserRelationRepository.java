@@ -1,15 +1,23 @@
 package com.quick.demo.repository;
 
+import com.quick.demo.entity.Address;
 import com.quick.demo.entity.RedisKey;
 import com.quick.demo.util.Current;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.geo.Distance;
+import org.springframework.data.geo.GeoResult;
+import org.springframework.data.geo.GeoResults;
+import org.springframework.data.geo.Point;
+import org.springframework.data.redis.connection.RedisGeoCommands;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.script.DefaultRedisScript;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.PostConstruct;
 import java.io.Serializable;
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Repository
@@ -45,6 +53,31 @@ public class RedisUserRelationRepository implements UserRelationRepository {
 	public List<String> queryFollowing(String userNo) {
 		return redisTemplate.opsForHash().keys(RedisKey.Following.toKey(userNo))
 				.stream().map(String::valueOf).collect(Collectors.toList());
+	}
+
+	@Override
+	public void addGeo(String userNo, Address address) {
+		Point point = new Point(Double.parseDouble(address.getLongitude()), Double.parseDouble(address.getLatitude()));
+		redisTemplate.boundGeoOps(geoKey()).add(point, userNo);
+	}
+
+	@Override
+	public List<String> nearby(String userNo, int limit, double maxDistance) {
+		RedisGeoCommands.GeoRadiusCommandArgs args =
+				RedisGeoCommands.GeoRadiusCommandArgs.newGeoRadiusArgs().sortAscending().limit(limit);
+		RedisGeoCommands.DistanceUnit meters = RedisGeoCommands.DistanceUnit.METERS;
+		GeoResults<RedisGeoCommands.GeoLocation<Serializable>> geoResults = redisTemplate.opsForGeo()
+				.radius(geoKey(), userNo, new Distance(maxDistance, meters), args);
+		return Optional.ofNullable(geoResults)
+				.map(GeoResults::getContent)
+				.orElseGet(Collections::emptyList)
+				.stream().map(GeoResult::getContent)
+				.map(r -> r.getName().toString())
+				.collect(Collectors.toList());
+	}
+
+	private String geoKey() {
+		return RedisKey.Geo.toKey("USER");
 	}
 
 	@PostConstruct

@@ -1,5 +1,7 @@
 package com.quick.demo.repository;
 
+import com.quick.demo.entity.Address;
+
 import java.util.List;
 
 public interface UserRelationRepository {
@@ -31,4 +33,18 @@ public interface UserRelationRepository {
 	 * @return user's following
 	 */
 	List<String> queryFollowing(String userNo);
+
+	/**
+	 * @param userNo  user number
+	 * @param address use address with longitude and latitude  required
+	 */
+	void addGeo(String userNo, Address address);
+
+	/**
+	 * @param userNo      user number
+	 * @param limit       max user number nearby
+	 * @param maxDistance max distance nearby
+	 * @return nearby users
+	 */
+	List<String> nearby(String userNo, int limit, double maxDistance);
 }
