@@ -12,7 +12,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService {
@@ -33,6 +36,7 @@ public class UserService {
 		user.setDob(userDTO.getDob());
 		user.setName(userDTO.getName());
 		user.setCreatedAt(Current.toMills());
+		user.setAddress(userDTO.getAddress());
 		addGeo(user);
 		return toDTO(userRepository.saveOrUpdate(user));
 
@@ -57,8 +61,12 @@ public class UserService {
 		userRepository.deleteByUserNo(userNo);
 	}
 
-	public UserDTO getById(Long id) {
-		return toDTO(userRepository.get(id));
+	public List<UserDTO> nearby(String userNo, int limit, double maxDistance) {
+		int maxLimit = Math.min(limit, 100);
+		double maxDis = Math.min(maxDistance, 3000.0);
+		List<String> nearbyList = relationRepository.nearby(userNo, maxLimit, maxDis);
+		List<String> friends = relationRepository.friends(userNo, nearbyList);
+		return friends.stream().map(this::getByUserNo).filter(Objects::nonNull).collect(Collectors.toList());
 	}
 
 	private UserDTO toDTO(User user) {

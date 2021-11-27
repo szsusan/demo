@@ -47,4 +47,11 @@ public interface UserRelationRepository {
 	 * @return nearby users
 	 */
 	List<String> nearby(String userNo, int limit, double maxDistance);
+
+	/**
+	 * @param userNo     specify user
+	 * @param userNoList user  list
+	 * @return user friends (means user is follower or following the specify user)
+	 */
+	List<String> friends(String userNo, List<String> userNoList);
 }

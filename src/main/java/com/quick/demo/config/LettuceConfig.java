@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.connection.lettuce.LettuceConnection;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
@@ -21,6 +22,7 @@ public class LettuceConfig {
 
 	@Bean
 	public RedisTemplate<String, Serializable> redisTemplate(LettuceConnectionFactory connectionFactory) {
+		connectionFactory.setPipeliningFlushPolicy(LettuceConnection.PipeliningFlushPolicy.flushOnClose());
 		RedisTemplate<String, Serializable> redisTemplate = new RedisTemplate<>();
 		StringRedisSerializer stringRedisSerializer = new StringRedisSerializer();
 

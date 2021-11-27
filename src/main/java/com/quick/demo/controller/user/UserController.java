@@ -76,6 +76,11 @@ public class UserController {
 		return ok(collect);
 	}
 
+	@RequestMapping(value = "/nearby/{id}", method = RequestMethod.GET)
+	public ResponseEntity<List<UserDTO>> nearby(@PathVariable(name = "id") String userNo) {
+		return ok(userService.nearby(userNo, 100, 3000.0));
+	}
+
 	private <R> ResponseEntity<R> ok(R rtn) {
 		return new ResponseEntity<>(rtn, HttpStatus.OK);
 	}
