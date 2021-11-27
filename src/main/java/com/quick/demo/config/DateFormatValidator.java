@@ -6,24 +6,22 @@ import java.time.format.DateTimeFormatter;
 
 public class DateFormatValidator implements ConstraintValidator<DateTimeFormat, String> {
 
-	private final ThreadLocal<DateTimeFormat> local = new ThreadLocal<>();
+	private String format;
 
 	@Override
 	public void initialize(DateTimeFormat constraintAnnotation) {
 		ConstraintValidator.super.initialize(constraintAnnotation);
-		local.set(constraintAnnotation);
+		this.format = constraintAnnotation.format();
 	}
 
 	@Override
 	public boolean isValid(String value, ConstraintValidatorContext context) {
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern(local.get().format());
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern(format);
 		try {
 			formatter.parse(value);
 			return true;
 		} catch (Exception e) {
 			return false;
-		} finally {
-			local.remove();
 		}
 	}
 }

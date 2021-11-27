@@ -36,10 +36,9 @@ public class UserService {
 		if (user == null) {
 			throw new UserNotFoundException(userDTO.getId());
 		}
-
-		user.setUserNo(userDTO.getId());
-		user.setName(user.getName());
-		user.setAddress(user.getAddress());
+		user.setName(userDTO.getName());
+		user.setDob(userDTO.getDob());
+		user.setAddress(userDTO.getAddress());
 		return toDTO(userRepository.saveOrUpdate(user));
 
 	}

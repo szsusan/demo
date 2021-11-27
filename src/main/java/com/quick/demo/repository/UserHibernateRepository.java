@@ -25,7 +25,7 @@ public class UserHibernateRepository implements UserRepository {
 		CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
 		CriteriaQuery<User> criteriaQuery = criteriaBuilder.createQuery(User.class);
 		Root<User> from = criteriaQuery.from(User.class);
-		criteriaQuery.select(from).where(criteriaBuilder.equal(from.get("userId"), userNo));
+		criteriaQuery.select(from).where(criteriaBuilder.equal(from.get("userNo"), userNo));
 		Query<User> query = session.createQuery(criteriaQuery);
 		return query.uniqueResult();
 	}
