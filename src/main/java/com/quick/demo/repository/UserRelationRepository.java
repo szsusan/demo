@@ -7,28 +7,28 @@ public interface UserRelationRepository {
 	/**
 	 * Specify user follows the other;
 	 *
-	 * @param uid      specify user
-	 * @param followId the other user
+	 * @param userNo   specify user
+	 * @param followNo the other user
 	 */
-	void follow(long uid, long followId);
+	void follow(String userNo, String followNo);
 
 	/**
 	 * Specify user do not follows the other any more;
 	 *
-	 * @param uid      specify user
-	 * @param followId the other user
+	 * @param userNo   specify user
+	 * @param followNo the other user
 	 */
-	void unfollow(long uid, long followId);
+	void unfollow(String userNo, String followNo);
 
 	/**
-	 * @param uid user id
+	 * @param userNo user number
 	 * @return user's follower
 	 */
-	List<Long> queryFollower(long uid);
+	List<String> queryFollower(String userNo);
 
 	/**
-	 * @param uid user id
+	 * @param userNo user number
 	 * @return user's following
 	 */
-	List<Long> queryFollowing(Long uid);
+	List<String> queryFollowing(String userNo);
 }

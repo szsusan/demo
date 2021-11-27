@@ -24,4 +24,12 @@ public class HttpMessageConverterConfigTest {
 		String value = objectMapper.writeValueAsString(operationLog);
 		Assert.assertEquals("{\"timestamp\":\"2021-10-01 01:01\"}",value);
 	}
+
+	@Test
+	public void quatation() throws JsonProcessingException {
+		ObjectMapper objectMapper = new HttpMessageConverterConfig().formatTime();
+
+		System.out.println(new String(objectMapper.writeValueAsBytes("123")));
+		System.out.println(objectMapper.writeValueAsString("123"));
+	}
 }
