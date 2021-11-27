@@ -59,6 +59,8 @@ public class UserService {
 
 	public void deleteByUserNo(String userNo) {
 		userRepository.deleteByUserNo(userNo);
+		relationRepository.deleteFollow(userNo);
+		relationRepository.deleteGeo(userNo);
 	}
 
 	public List<UserDTO> nearby(String userNo, int limit, double maxDistance) {

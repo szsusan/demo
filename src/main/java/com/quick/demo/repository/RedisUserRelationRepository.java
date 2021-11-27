@@ -84,6 +84,17 @@ public class RedisUserRelationRepository implements UserRelationRepository {
 	}
 
 	@Override
+	public void deleteFollow(String userNo) {
+		redisTemplate.delete(RedisKey.Follower.toKey(userNo));
+		redisTemplate.delete(RedisKey.Following.toKey(userNo));
+	}
+
+	@Override
+	public void deleteGeo(String userNo) {
+		redisTemplate.opsForZSet().remove(geoKey(), userNo);
+	}
+
+	@Override
 	public void addGeo(String userNo, Address address) {
 		Point point = new Point(Double.parseDouble(address.getLongitude()), Double.parseDouble(address.getLatitude()));
 		redisTemplate.boundGeoOps(geoKey()).add(point, userNo);

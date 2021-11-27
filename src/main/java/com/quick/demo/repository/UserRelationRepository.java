@@ -54,4 +54,18 @@ public interface UserRelationRepository {
 	 * @return user friends (means user is follower or following the specify user)
 	 */
 	List<String> friends(String userNo, List<String> userNoList);
+
+	/**
+	 * 删除用户关注列表，粉丝列表
+	 *
+	 * @param userNo user
+	 */
+	void deleteFollow(String userNo);
+
+	/**
+	 * 删除用户geo信息
+	 *
+	 * @param userNo user
+	 */
+	void deleteGeo(String userNo);
 }
