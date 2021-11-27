@@ -2,6 +2,7 @@ package com.quick.demo.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
@@ -15,6 +16,7 @@ import java.io.Serializable;
 public class LettuceConfig {
 
 	@Autowired
+	@Qualifier("formatTime")
 	private ObjectMapper objectMapper;
 
 	@Bean
