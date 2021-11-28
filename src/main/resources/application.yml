@@ -1,0 +1,14 @@
+spring:
+  profiles:
+    active: dev
+  application:
+    name: demo
+
+  jpa:
+    open-in-view: false
+
+
+logging:
+  config: classpath:log.xml
+  file:
+    path: /home/logs
