@@ -3,6 +3,7 @@ package com.quick.demo.dto;
 import com.quick.demo.config.DateTimeFormat;
 import com.quick.demo.entity.Address;
 import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
 import javax.validation.constraints.NotBlank;
 
@@ -10,11 +11,14 @@ import javax.validation.constraints.NotBlank;
 public class UserDTO {
 
 	private String id;
+
 	private Address address;
 	private long createAt;
 	@NotBlank
+	@ApiModelProperty(value = "user name")
 	private String name;
 	@DateTimeFormat(format = "yyyy-MM-dd", message = "invalid date format")
+	@ApiModelProperty(value = "date of birth", required = true, example = "1900-01-01")
 	private String dob;
 
 	public String getId() {
