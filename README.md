@@ -13,6 +13,6 @@ spring boot integration with swagger and redis
 
 After run application
 
-1. http://localhost:8080/h2-console , the database console
+1. http://localhost:8080/h2-console , the database console; jdbc url is jdbc:h2:mem:demo
 2. http://localhost:8080/swagger-ui/index.html , swagger ui
 
